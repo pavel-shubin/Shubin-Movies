@@ -72,10 +72,6 @@ body {
     transition: 0.2s;
 }
 
-.catalog-actual__top {}
-
-.catalog-alltime__top {}
-
 .movies {
     display: flex;
     flex-wrap: wrap;
@@ -235,6 +231,44 @@ ul li {
 
 .hidden {
     display: none;
+}
+
+.pages {
+    margin-bottom: 20px;
+}
+
+.pages__list {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+.pages__list-item {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    padding: 5px;
+}
+
+
+/* .pages__list-item__link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    padding: 5px;
+} */
+
+.pages__list-item:hover {
+    text-decoration: underline;
+    transition: solid 0.2s;
+    font-size: 20px;
+}
+
+.pages__list-item:active {
+    text-decoration: underline;
+    transition: smooth 0.2s;
+    font-size: 20px;
+    color: #ffd80e;
 }
 
 

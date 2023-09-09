@@ -217,3 +217,23 @@ window.addEventListener("click", (e) => {
     getMovies(API_URL_BEST);
   }
 });
+
+
+const pageLink = document.querySelector(".pages__list-item")
+
+window.addEventListener("click", (e) => {
+  if (e.target === pageLink) {
+
+    e.preventDefault();
+
+    // Очищаем предыдущие фильмы
+    document.querySelector(".movies").innerHTML = "";
+    var num = pageLink
+    var value = document.body.querySelector("pages__list-item").textContent;
+
+    const genLink = API_URL_POPULAR_CATALOG + pageLink
+    // Подгружаем карточки с фильмами
+    getMovies(genLink);
+    console.log(genLink)
+  }
+});
