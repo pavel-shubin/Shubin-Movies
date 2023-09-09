@@ -289,5 +289,6 @@ ul li {
 @media screen and (max-width: 356px) {
     .header__logo {
         font-size: 14px;
+        color: #1a191f;
     }
 }
