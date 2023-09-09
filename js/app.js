@@ -47,13 +47,17 @@ function showMovies(data) {
                 const movieEl = document.createElement("div");
                 movieEl.classList.add("movie");
                 movieEl.innerHTML = `
-        <div class="movie__cover-inner">
+      <div class="movie__cover-inner">
         <img
           src="${movie.posterUrlPreview}"
           class="movie__cover"
           alt="${movie.nameRu}"
         />
+
         <div class="movie__cover--darkened"></div>
+        <p class="move__on">Просмотр</p>
+        <p class="description">Описание</p>
+
       </div>
       <div class="movie__info">
         <div class="movie__title">${movie.nameRu}</div>
