@@ -55,8 +55,6 @@ function showMovies(data) {
         />
 
         <div class="movie__cover--darkened"></div>
-        <p class="move__on">Просмотр</p>
-        <p class="description">Описание</p>
 
       </div>
       <div class="movie__info">
@@ -75,10 +73,17 @@ function showMovies(data) {
         }
       </div>
         `;
-    movieEl.addEventListener("click", () => openModal(movie.filmId))
+            // Переместить под --darkned для работы
+        // <p class="move__on">Просмотр</p>
+        // <p class="description">Описание</p>
+
+    movieEl.addEventListener("click", () => openPlayer(movie.filmId))
     moviesEl.appendChild(movieEl);
   });
 }
+
+
+
 
 // Работа формы поиска
 const form = document.querySelector("form");
@@ -95,18 +100,10 @@ form.addEventListener("submit", (e) => {
   }
 });
 
-// Modal
-const modalEl = document.querySelector(".modal");
+// Player
 const playerEl = document.querySelector(".kinobox_player")
 
-async function openModal(id) {
-  const resp = await fetch(API_URL_MOVIE_DETAILS + id, {
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": API_KEY,
-    },
-  });
-  const respData = await resp.json();
+async function openPlayer(id) {
   
   playerEl.classList.remove("hidden")
   // modalEl.classList.add("modal--show");
@@ -154,7 +151,25 @@ async function openModal(id) {
     order: ['kodik', 'alloha'],
   }).init();
 
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+
+// Modal
+const modalEl = document.querySelector(".modal");
+
+async function openModal(id) {
+  const resp = await fetch(API_URL_MOVIE_DETAILS + id, {
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-KEY": API_KEY,
+    },
+  });
+  const respData = await resp.json();
   
+  modalEl.classList.add("modal--show");
+  document.body.classList.add("stop-scrolling");
+
   modalEl.innerHTML = `
     <div class="modal__card">
       <img class="modal__movie-backdrop" src="${respData.posterUrl}" alt="">
@@ -172,10 +187,6 @@ async function openModal(id) {
       <button type="button" class="modal__button-close">Закрыть</button>
     </div>
   `
-
-  window.scrollTo({top: 0, behavior: 'smooth'});
-
-
   const btnClose = document.querySelector(".modal__button-close");
   btnClose.addEventListener("click", () => closeModal());
 }
@@ -196,7 +207,6 @@ window.addEventListener("keydown", (e) => {
     closeModal();
   }
 })
-
 
 // Работа кнопок каталогов
 const btnActual = document.querySelector(".catalog-actual__top");
