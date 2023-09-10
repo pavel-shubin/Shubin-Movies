@@ -78,7 +78,7 @@ function showMovies(data) {
             // Переместить под --darkned для работы
         // <p class="move__on">Просмотр</p>
         // <p class="description">Описание</p>
-
+    movieEl.addEventListener("click", () => openModal(movie.filmId))
     movieEl.addEventListener("click", () => openPlayer(movie.filmId))
     moviesEl.appendChild(movieEl);
   });
@@ -123,14 +123,15 @@ async function openPlayer(id) {
         open: false,
     },
     players: {
-        alloha: {
+
+        bazon: {
             enable: true,
-            position: 1,
+            // position: 1,
             token: '{token}'
         },
-        kodik: {
-            enable: false,
-            position: 2,
+        alloha: {
+            enable: true,
+            // position: 2,
             token: '{token}'
         },
         // ...
@@ -138,17 +139,15 @@ async function openPlayer(id) {
     params: {
         all: {
             poster: 'https://example.org/poster.jpg',
+            autoplay: 0
         },
         alloha: {
-            autoplay: 1
-        },
-        kodik: {
-            hide_selectors: true
+            autoplay: 0
         },
         // ...
     },
     hide: ['videocdn', 'collaps'],
-    order: ['kodik', 'alloha'],
+    order: ['bazon', 'alloha'],
   }).init();
 
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -173,18 +172,20 @@ async function openModal(id) {
   modalEl.innerHTML = `
     <div class="modal__card">
       <img class="modal__movie-backdrop" src="${respData.posterUrl}" alt="">
-      <h2>
-        <span class="modal__movie-title">${respData.nameRu}</span>
-        <span class="modal__movie-release-year"> - ${respData.year}</span>
-      </h2>
-      <ul class="modal__movie-info">
-        <div class="loader"></div>
-        <li class="modal__movie-genre">Жанр - ${respData.genres.map((el) => `<span>${el.genre}</span>`)}</li>
-        ${respData.filmLength ? `<li class="modal__movie-runtime">Время - ${respData.filmLength} минут</li>` : ''}
-        <li >Сайт: <a class="modal__movie-site" href="${respData.webUrl}">${respData.webUrl}</a></li>
-        <li class="modal__movie-overview">Описание - ${respData.description}</li>
-      </ul>
-      <button type="button" class="modal__button-close">Закрыть</button>
+      <div class="modal__movie-container">
+          <h2>
+            <span class="modal__movie-title">${respData.nameRu}</span>
+            <span class="modal__movie-release-year"> - ${respData.year}</span>
+          </h2>
+          <ul class="modal__movie-info">
+            <div class="loader"></div>
+            <li class="modal__movie-genre"><span class="modal__movie-suptitle">Жанр:</span> ${respData.genres.map((el) => `<span> ${el.genre}</span>`)}</li>
+            ${respData.filmLength ? `<li class="modal__movie-runtime"><span class="modal__movie-suptitle">Время:</span> ${respData.filmLength} минут</li>` : ''}
+            <li ><span class="modal__movie-suptitle">Сайт:</span> <a class="modal__movie-site" href="${respData.webUrl}">${respData.webUrl}</a></li>
+            <li class="modal__movie-overview"><span class="modal__movie-suptitle">Описание:</span> </br> ${respData.description}</li>
+          </ul>
+          <button type="button" class="modal__button-close">Закрыть</button>
+      </div>
     </div>
   `
   const btnClose = document.querySelector(".modal__button-close");
@@ -216,7 +217,8 @@ window.addEventListener("click", (e) => {
   if (e.target === btnActual) {
     // Очищаем предыдущие фильмы
     document.querySelector(".movies").innerHTML = "";
-
+    // Закрываем плеер
+    // playerEl.classList.add("hidden")
     // Подгружаем карточки с фильмами
     getMovies(API_URL_POPULAR);
   }
@@ -226,7 +228,8 @@ window.addEventListener("click", (e) => {
   if (e.target === btnBest) {
     // Очищаем предыдущие фильмы
     document.querySelector(".movies").innerHTML = "";
-
+    // Закрываем плеер
+    // playerEl.classList.add("hidden")
     // Подгружаем карточки с фильмами
     getMovies(API_URL_BEST);
   }

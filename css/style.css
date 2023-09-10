@@ -248,32 +248,53 @@ body {
 
 .modal__card {
     background-color: #ffffff;
-    max-width: 600px;
+    max-width: 1000px;
     padding: 16px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
     background-color: #1a191f;
     color: #ffffff;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .modal__movie-backdrop {
-    width: 200px;
-    margin: 0 auto
+    width: 50%;
+    margin-right: 20px;
+}
+
+.modal__movie-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .modal__movie-info {
     margin-left: 20px;
+    font-size: 16px;
 }
 
 .modal__button-close {
-    padding: 5px;
+    background-color: grey;
+    padding: 10px;
     margin: 10px;
     align-self: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    transition: solid 0.2s;
+    border-radius: 2%;
+}
+
+.modal__button-close:hover {
+    background-color: #fae478;
+    transition: smooth 0.2s;
 }
 
 .modal__movie-site {
-    color: #ffd80e
+    color: #fae478
+}
+
+.modal__movie-suptitle {
+    color: #ffd80e;
 }
 
 ul li {
@@ -340,9 +361,26 @@ ul li {
 
 /* Адаптив */
 
+@media screen and (max-width: 720px) {
+    .modal__card {
+        display: flex;
+        flex-direction: column;
+    }
+    .modal__movie-backdrop {
+        width: 50%;
+        margin: 10px auto;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+}
+
 @media screen and (max-width: 460px) {
     .header__logo {
         font-size: 24px;
+    }
+    .modal__movie-info {
+        margin-left: 20px;
+        font-size: 14px;
     }
 }
 
