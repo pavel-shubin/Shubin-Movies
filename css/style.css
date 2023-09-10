@@ -321,6 +321,16 @@ ul li {
     color: #ffd80e;
 }
 
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    color: #fff;
+}
+
+.footer__text {
+    color: #fff;
+}
+
 
 /* Адаптив */
 
