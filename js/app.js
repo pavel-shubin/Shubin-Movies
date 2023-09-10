@@ -36,6 +36,8 @@ function getClassByRate(vote) {
         return "red";
     }
 }
+
+
 // Генерация каталога фильмов при загрузке/перезагрузке сайта
 function showMovies(data) {
     const moviesEl = document.querySelector(".movies");
@@ -106,8 +108,6 @@ const playerEl = document.querySelector(".kinobox_player")
 async function openPlayer(id) {
   
   playerEl.classList.remove("hidden")
-  // modalEl.classList.add("modal--show");
-  // document.body.classList.add("stop-scrolling");
 
   new Kinobox('.kinobox_player', {
     search: {
