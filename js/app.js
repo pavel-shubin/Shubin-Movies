@@ -75,7 +75,9 @@ function showMovies(data) {
         }
       </div>
         `;
-    movieEl.addEventListener("click", () => openModal(movie.filmId))
+    // Включение плеера по нажатию на карточку фильма
+    movieEl.addEventListener("click", () => openPlayer(movie.filmId))
+
     moviesEl.appendChild(movieEl);
   });
 }
@@ -95,18 +97,10 @@ form.addEventListener("submit", (e) => {
   }
 });
 
-// Modal
-const modalEl = document.querySelector(".modal");
+// Player
 const playerEl = document.querySelector(".kinobox_player")
 
-async function openModal(id) {
-  const resp = await fetch(API_URL_MOVIE_DETAILS + id, {
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": API_KEY,
-    },
-  });
-  const respData = await resp.json();
+async function openPlayer(id) {
   
   playerEl.classList.remove("hidden")
   // modalEl.classList.add("modal--show");
@@ -155,47 +149,10 @@ async function openModal(id) {
   }).init();
 
   
-  modalEl.innerHTML = `
-    <div class="modal__card">
-      <img class="modal__movie-backdrop" src="${respData.posterUrl}" alt="">
-      <h2>
-        <span class="modal__movie-title">${respData.nameRu}</span>
-        <span class="modal__movie-release-year"> - ${respData.year}</span>
-      </h2>
-      <ul class="modal__movie-info">
-        <div class="loader"></div>
-        <li class="modal__movie-genre">Жанр - ${respData.genres.map((el) => `<span>${el.genre}</span>`)}</li>
-        ${respData.filmLength ? `<li class="modal__movie-runtime">Время - ${respData.filmLength} минут</li>` : ''}
-        <li >Сайт: <a class="modal__movie-site" href="${respData.webUrl}">${respData.webUrl}</a></li>
-        <li class="modal__movie-overview">Описание - ${respData.description}</li>
-      </ul>
-      <button type="button" class="modal__button-close">Закрыть</button>
-    </div>
-  `
-
   window.scrollTo({top: 0, behavior: 'smooth'});
 
-
-  const btnClose = document.querySelector(".modal__button-close");
-  btnClose.addEventListener("click", () => closeModal());
 }
 
-function closeModal() {
-  modalEl.classList.remove("modal--show");
-  document.body.classList.remove("stop-scrolling");
-}
-
-window.addEventListener("click", (e) => {
-  if (e.target === modalEl) {
-    closeModal();
-  }
-})
-
-window.addEventListener("keydown", (e) => {
-  if (e.keyCode === 27) {
-    closeModal();
-  }
-})
 
 
 // Работа кнопок каталогов
