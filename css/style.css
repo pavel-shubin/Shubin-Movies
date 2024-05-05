@@ -27,6 +27,7 @@ body {
     text-decoration: none;
     color: #ffffff;
     margin-left: 10px;
+    opacity: 0.8;
 }
 
 .header__search {
@@ -35,12 +36,51 @@ body {
     border-radius: 5px;
     outline: none;
     margin-right: 10px;
+    opacity: 0.8;
+}
+
+
+.kinobox__header-content {
+    margin-left: 35px;
+    margin-top: 20px;
+    color: #fff;
+    display: inline-block;
+}
+
+.film__name {
+    
+    font-size: 16px;
+}
+
+.film_year {
+    opacity: 0.8;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.btn__description {
+    opacity: 0.4;
+    padding: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #1a191f;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;  
+    margin-left: 10px;  
+}
+
+.btn__description:hover {
+    opacity: 1;
+    transition: 0.2s;
 }
 
 .kinobox_player {
     max-width: 1150px;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .catalogs {
@@ -113,56 +153,74 @@ body {
     cursor: pointer;
 }
 
+ /* Свойства кнопок Просмотр и Описание на карточке фильма*/
 
-/* .movie__cover-container {
+.movie__cover-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: absolute;
     top: 0;
     padding-left: 85px;
-} */
+}
 
-.movie__cover-inner p {
+.btn__cover {
     display: none;
     position: absolute;
-    padding-left: 81.3px;
-    color: #000;
-    padding-right: 81.3px;
-    opacity: 0.5;
+    opacity: 0.9;
     font-weight: bold;
+    transition: ease .2s;
+    left: 0;
+    width: 240px;
+    height: 180px;
+    z-index: 1;
 }
 
 .move__on {
-    padding-top: 95px;
-    padding-bottom: 60px;
+    padding: 79px;
+    padding-bottom: 80;
     background-color: #fff;
-    z-index: 1;
+    color: #1a191f;
     top: 0;
 }
 
 .move__on:hover {
+    text-decoration: underline;
     opacity: 0.9;
     font-size: 18px;
-    padding-right: 76px;
-    padding-left: 77px;
+    padding: 78px;
+    cursor: pointer;
+    display: block;
 }
 
 .description {
-    top: 177px;
-    padding-top: 82px;
-    padding-bottom: 80px;
+    top: 180px;
+    padding: 80px 81px;
     background-color: #ffd80e;
+    color: #fff;
+    transition: 0.2ms;
 }
 
 .description:hover {
-    opacity: 0.9;
+    text-decoration: underline;
+    font-weight: thin;
+    color: #fff;
+    opacity: 0.95;
     font-size: 18px;
-    padding-right: 76px;
-    padding-left: 76px;
+    padding: 79px 76px;
+    cursor: pointer;
+    display: block;
 }
 
-.movie__cover-inner:hover p {
+
+.visible {
+    display: block;
+    z-index: 1;
+}
+/* конец анимации */
+
+
+.movie__cover-inner:hover  {
     display: block;
     cursor: pointer;
     transition: 0.2s;
@@ -248,17 +306,19 @@ body {
 
 .modal__card {
     background-color: #ffffff;
-    max-width: 1000px;
+    width: 900px;
+    height: 650px;
     padding: 16px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
     background-color: #1a191f;
     color: #ffffff;
     display: flex;
     flex-direction: row;
+    padding-bottom: 10px;
 }
 
 .modal__movie-backdrop {
-    width: 50%;
+    min-width: 50%;
     margin-right: 20px;
 }
 
@@ -270,6 +330,11 @@ body {
 .modal__movie-info {
     margin-left: 20px;
     font-size: 16px;
+}
+
+.modal__movie-overview {
+    text-align: justify;
+    padding-right: 25px;
 }
 
 .modal__button-close {
@@ -308,6 +373,11 @@ ul li {
 
 .hidden {
     display: none;
+    z-index: -1;
+}
+
+.list-pages {
+    margin-top: 30px;
 }
 
 .pages {
@@ -320,20 +390,21 @@ ul li {
     justify-content: center;
 }
 
-.pages__list-item {
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    padding: 5px;
-}
-
-
-/* .pages__list-item__link {
+/* .pages__list-item {
     text-decoration: none;
     color: #fff;
     font-size: 18px;
     padding: 5px;
 } */
+
+
+.pages__list-item__link {
+    text-decoration: none;
+    color: #96957D;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 5px;
+}
 
 .pages__list-item:hover {
     text-decoration: underline;
@@ -362,25 +433,69 @@ ul li {
 /* Адаптив */
 
 @media screen and (max-width: 720px) {
+    
+    .catalogs {
+        margin: 15px auto;
+    }
+    
     .modal__card {
         display: flex;
         flex-direction: column;
+        max-height: 90%;
+        overflow: auto;
+
     }
     .modal__movie-backdrop {
-        width: 50%;
+        width: 70%;
         margin: 10px auto;
         margin-bottom: 5px;
         margin-top: 5px;
     }
+    .modal__movie-container h2 {
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 460px) {
+    
+    .kinobox__header-content{
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .btn__description {
+        width: 50%;
+        padding-left: 16%;
+    }
+
     .header__logo {
         font-size: 24px;
     }
+    /* .modal__movie-backdrop::after {
+        content: "";
+        background-image: url('https://cdn-icons-png.flaticon.com/512/3097/3097659.png');
+        position: sticky;
+        top: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        color: #fff;
+        background-repeat: no-repeat;
+        transition: 0.2s;
+    } */
+
     .modal__movie-info {
         margin-left: 20px;
         font-size: 14px;
+    }
+    .modal__movie-container h2 {
+        font-size: 20px;
+    }
+    .modal__button-close {
+        padding: 7px;
     }
 }
 
