@@ -12,7 +12,27 @@ const API_URL_POPULAR_CATALOG =
 const API_URL_BEST_CATALOG =
   "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=";
 
+const btnActual = document.querySelector(".catalog-actual__top");
+const btnBest = document.querySelector(".catalog-alltime__top");
+
+const pagesList = document.getElementsByClassName("pages__list-item__link");
+const pageLink = document.querySelector(".pages__list-item__link");
+const pageLink1 = document.querySelector("#page-1");
+const pageLink2 = document.querySelector("#page-2");
+const pageLink3 = document.querySelector("#page-3");
+const pageLink4 = document.querySelector("#page-4");
+const pageLink5 = document.querySelector("#page-5");
+const pageLink6 = document.querySelector("#page-6");
+const pageLink7 = document.querySelector("#page-7");
+const pageLink8 = document.querySelector("#page-8");
+const pageLink9 = document.querySelector("#page-9");
+const pageLink10 = document.querySelector("#page-10");
+
 getMovies(API_URL_POPULAR);
+markerUrl = "pop";
+pageLink1.classList.add("selected__page");
+// btnActual.classList.remove("not-selected")
+btnBest.classList.add("not-selected");
 
 // Подключение к API и загрузка .json ответа в константу respData
 async function getMovies(url) {
@@ -134,7 +154,10 @@ function showMovies(data) {
   });
 }
 
-// Работа формы поиска
+
+
+
+///// Работа формы поиска
 const form = document.querySelector("form");
 const search = document.querySelector(".header__search");
 
@@ -147,7 +170,9 @@ form.addEventListener("submit", (e) => {
   }
 }); // конец работы формы поиска
 
-// Player
+
+
+///// Player
 const playerEl = document.querySelector(".kinobox_player");
 
 async function openPlayer(id, nameFilm, year) {
@@ -204,17 +229,38 @@ async function openPlayer(id, nameFilm, year) {
   kinoboxHeaderContent.classList.add("kinobox__header-content");
   kinoboxHeaderContent.innerHTML = `
     <span class="film__name">${nameFilm}</span>
-    <span class="btn__description">Описание</span>
+    <span class="btn__description btn__player">Описание</span>
+    <span class="btn__player-hidden btn__player">Скрыть плеер</span>
+    <span class="btn__player-visible btn__player hidden">Показать плеер</span>
+
+    
   `; // <span class="film_year">${year}</span> // Можно добавить год выхода фильма к названию фильма
 
   btnDescription = kinoboxHeaderContent.querySelector(".btn__description");
+  btnClosePlayer = kinoboxHeaderContent.querySelector(".btn__player-hidden");
+  btnOpenPlayer = kinoboxHeaderContent.querySelector(".btn__player-visible");
   btnDescription.addEventListener("click", () => {
     openModal(id);
   });
+
+  btnClosePlayer = kinoboxHeaderContent.querySelector(".btn__player-hidden");
+  btnClosePlayer.addEventListener("click", () => {
+    playerEl.classList.add("hidden");
+    btnClosePlayer.classList.add("hidden");
+    btnOpenPlayer.classList.remove("hidden");
+  });
+
+  btnOpenPlayer = kinoboxHeaderContent.querySelector(".btn__player-visible");
+  btnOpenPlayer.addEventListener("click", () => {
+    playerEl.classList.remove("hidden");
+    btnClosePlayer.classList.remove("hidden");
+    btnOpenPlayer.classList.add("hidden");
+  });
+
   kinoboxHeader.appendChild(kinoboxHeaderContent);
 }
 
-// Modal window
+///// Modal window
 const modalEl = document.querySelector(".modal");
 
 async function openModal(id) {
@@ -276,216 +322,236 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// Работа кнопок каталогов
-const btnActual = document.querySelector(".catalog-actual__top");
-const btnBest = document.querySelector(".catalog-alltime__top");
 
+
+///// Работа кнопок каталогов
 window.addEventListener("click", (e) => {
   if (e.target === btnActual) {
+
     // Очищаем предыдущие фильмы
     document.querySelector(".movies").innerHTML = "";
-    // Закрываем плеер
-    // playerEl.classList.add("hidden")
+
     // Подгружаем карточки с фильмами
     getMovies(API_URL_POPULAR);
+    btnBest.classList.add("not-selected");
+    btnActual.classList.remove("not-selected");
+    defaultPages();
+    pageLink1.classList.add("selected__page");
+    markerUrl = "pop";
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === btnBest) {
+
     // Очищаем предыдущие фильмы
     document.querySelector(".movies").innerHTML = "";
-    // Закрываем плеер
-    // playerEl.classList.add("hidden")
+
     // Подгружаем карточки с фильмами
     getMovies(API_URL_BEST);
+    btnActual.classList.add("not-selected");
+    btnBest.classList.remove("not-selected");
+    defaultPages();
+    pageLink1.classList.add("selected__page");
+    markerUrl = "best";
   }
 });
-var numberPattern = /\d+/g;
-
-const pageLink = document.querySelector(".pages__list-item");
-const pageLink1 = document.querySelector("#page-1");
-const pageLink2 = document.querySelector("#page-2");
-const pageLink3 = document.querySelector("#page-3");
-const pageLink4 = document.querySelector("#page-4");
-const pageLink5 = document.querySelector("#page-5");
-const pageLink6 = document.querySelector("#page-6");
-const pageLink7 = document.querySelector("#page-7");
-const pageLink8 = document.querySelector("#page-8");
-const pageLink9 = document.querySelector("#page-9");
-const pageLink10 = document.querySelector("#page-10");
 
 
 
+///// Работа страниц каталогов
+
+// Очищение номеров страниц от активного класса
+function defaultPages() {
+    for (var i = 0; i < pagesList.length; i++) {
+      pagesList[i].className = pagesList[i].className.replace('selected__page','');   
+    }
+}
+
+// Генерация страницы каталога
+function newPageCatalog(page) {
+  defaultPages();
+  document.querySelector(".movies").innerHTML = "";
+  var num = Number(page.textContent);
+  if (markerUrl === "pop") {
+    let getLink = API_URL_POPULAR_CATALOG + num;
+    // Подгружаем карточки с фильмами
+    getMovies(getLink);
+    btnActual.classList.remove("not-selected")
+    btnBest.classList.add("not-selected")
+    markerUrl = "pop";
+  } else if (markerUrl === "best") {
+      let getLink = API_URL_BEST_CATALOG + num;
+      // Подгружаем карточки с фильмами
+      getMovies(getLink);
+      btnActual.classList.add("not-selected")
+      btnBest.classList.remove("not-selected")
+      markerUrl === "best";
+    } 
+  page.classList.add("selected__page")
+}
 
 
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink1) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 1;
-
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
+    newPageCatalog(pageLink1);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink2) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 2;
-
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
+    newPageCatalog(pageLink2);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink3) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 3;
-
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
-    console.log(getLink);
+    newPageCatalog(pageLink3);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink4) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 4;
-
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
+    newPageCatalog(pageLink4);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink5) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 5;
+    newPageCatalog(pageLink5);
 
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink6) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 6;
+    newPageCatalog(pageLink6);
 
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink7) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 7;
+    newPageCatalog(pageLink7)
 
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink8) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 8;
+    newPageCatalog(pageLink8)
 
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink9) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 9;
+    newPageCatalog(pageLink9)
 
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
   }
 });
 
 window.addEventListener("click", (e) => {
   if (e.target === pageLink10) {
     e.preventDefault();
-    // Очищаем предыдущие фильмы
-    document.querySelector(".movies").innerHTML = "";
-    var num = 10;
+    newPageCatalog(pageLink10)
 
-    const getLink = API_URL_POPULAR_CATALOG + num;
-    // Подгружаем карточки с фильмами
-    getMovies(getLink);
   }
 });
 
-// window.addEventListener("click", (e) => {
-//   if (e.target === pageLink1) {
-//     e.preventDefault();
-//     getPageCatalogMovies(pageLink1)
-//   }
-// });
 
-// window.addEventListener("click", (e) => {
-//   if (e.target === pageLink2) {
-//     e.preventDefault();
-//     getPageCatalogMovies(pageLink2)
-//   }
-// });
 
-// window.addEventListener("click", (e) => {
-//   if (e.target === pageLink3) {
-//     e.preventDefault();
-//     getPageCatalogMovies(pageLink3)
-//   }
-// });
 
-// window.addEventListener("click", (e) => {
-//   if (e.target === pageLink4) {
-//     e.preventDefault();
-//     getPageCatalogMovies(pageLink4)
-//   }
-// });
 
-// function getPageCatalogMovies(page) {
 
-//   // Очищаем предыдущие фильмы
-//   document.querySelector(".movies").innerHTML = "";
-//   var num = parseInt(page.replace("#page-", ""));
+// Почему не работают варианты ниже? Событие в таком автоматизированном формате не может обрабатываться?
 
-//   const getLink = API_URL_POPULAR_CATALOG + num;
-//   // Подгружаем карточки с фильмами
-//   getMovies(getLink);
+
+// function defaultPages() {
+  /////// НЕ рабочий алгоритм удаления классов
+  // pagesList.forEach(page=> {
+  //   page.classList.remove("selected__page");    
+  // })  
+  /////// Рабочий алгоритм удаления классов
+  // for (var i = 0; i < pagesList.length; i++) {
+  //   pagesList[i].className = pagesList[i].className.replace('selected__page','');   
+  // }
 // }
+
+
+
+// window.addEventListener("click", (e) => {
+//   pagesList.forEach( page => {
+//     if (e.target === page) {
+      
+//       document.querySelector(".movies").innerHTML = "";
+//       var num = Number(page.textContent);
+
+//       let getLink = API_URL_POPULAR_CATALOG + num;
+
+//       // Подгружаем карточки с фильмами
+//       getMovies(getLink);  
+//     }
+//   })
+
+// });
+
+// let pagesList = document.querySelectorAll('.pages__list-item__link');
+// pagesList.forEach(page => {
+//   page.onclick = () => { 
+//     console.log(page);
+//     document.querySelector(".movies").innerHTML = "";
+//       let num = parseInt(page.textContent);
+
+//       let getLink = API_URL_POPULAR_CATALOG + num;
+
+//       // Подгружаем карточки с фильмами
+//       getMovies(getLink);  
+//   };
+// });
+
+// let pagesList = document.querySelectorAll('.pages__list-item__link');
+
+// for (i = 0, len = pagesList.length; i < len; i++) {
+//   pagesList[i].onclick = function() {
+//     this.style.backgroundColor = 'red';
+//     // document.querySelector(".movies").innerHTML = "";
+//     // let num = parseInt(page.textContent);
+
+//     // let getLink = API_URL_POPULAR_CATALOG + num;
+
+//     //   // Подгружаем карточки с фильмами
+//     // getMovies(getLink);  
+//   };
+// }
+
+
+  // window.addEventListener("click", (e) => {
+  //   if (e.target === pagesList) {
+  //     e.preventDefault();
+  //     pagesList.forEach(page => {
+  //       if (e.target === page) {
+  //         e.preventDefault();
+  //     // Очищаем предыдущие фильмы
+  //     document.querySelector(".movies").innerHTML = "";
+  //     var num = parseInt(page.textContent);
+  //     console.log(num);
+
+  //     const getLink = API_URL_POPULAR_CATALOG + num;
+  //     // Подгружаем карточки с фильмами
+  //     getMovies(getLink);
+  //       } 
+  //     })
+      
+  //   }
+  // });
