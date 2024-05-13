@@ -232,15 +232,18 @@ async function openPlayer(id, nameFilm, year) {
     <span class="btn__description btn__player">Описание</span>
     <span class="btn__player-hidden btn__player">Скрыть плеер</span>
     <span class="btn__player-visible btn__player hidden">Показать плеер</span>
-
+    <a href="https://kino.is/${id}" class="btn__player">Открыть плеер KinoDB</a>
     
   `; // <span class="film_year">${year}</span> // Можно добавить год выхода фильма к названию фильма
-  const playerContainer = document.querySelector(".player__container");
-  const kinoDB = document.createElement('div')
-  kinoDB.innerHTML = `
-  <div data-kinopoisk="${id}" id="kinobd"></div>
-  `
-  playerContainer.appendChild(kinoDB);
+  // <span class="btn__player-kinoDB btn__player">Показать плеер KinoDB</span>
+
+  // const btnKinoDB = kinoboxHeaderContent.querySelector(".btn__player-kinoDB");
+  // btnKinoDB.addEventListener("click", () => {
+  //   const kinoDB = document.querySelector('#kinobd')
+  //   kinoDB.setAttribute("data-kinopoisk", `${id}`)
+  //   kinoDB.classList.remove("hidden");
+  // });
+
   btnDescription = kinoboxHeaderContent.querySelector(".btn__description");
   btnClosePlayer = kinoboxHeaderContent.querySelector(".btn__player-hidden");
   btnOpenPlayer = kinoboxHeaderContent.querySelector(".btn__player-visible");
