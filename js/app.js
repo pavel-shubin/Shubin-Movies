@@ -235,7 +235,12 @@ async function openPlayer(id, nameFilm, year) {
 
     
   `; // <span class="film_year">${year}</span> // Можно добавить год выхода фильма к названию фильма
-
+  const playerContainer = document.querySelector(".player__container");
+  const kinoDB = document.createElement('div')
+  kinoDB.innerHTML = `
+  <div data-kinopoisk="${id}" id="kinobd"></div>
+  `
+  playerContainer.appendChild(kinoDB);
   btnDescription = kinoboxHeaderContent.querySelector(".btn__description");
   btnClosePlayer = kinoboxHeaderContent.querySelector(".btn__player-hidden");
   btnOpenPlayer = kinoboxHeaderContent.querySelector(".btn__player-visible");
